@@ -24,6 +24,7 @@
 \usepackage{hyperref}
 \usepackage{psfrag}
 \usepackage{pdfpages}
+\usepackage{listings}
 %\usepackage[style=authoryear]{biblatex}
 %\bibliography{/Users/ali/Library/texmf/bibtex/bib/references}
 
@@ -100,87 +101,7 @@ Mac:
 
 
 \begin{frame}
-\frametitle{HPC Concepts}
-Parallelization:
-\begin{itemize}
-    \item Shared memory
-        \begin{enumerate}
-            \item All memory used is within the same physical computer
-            \pause
-            \item Often used for 'embarrassingly parallizeable' problems
-            \pause 
-            \item Protocals 
-                \begin{itemize}
-                    \item C/Fortran : OpenMP
-                    \item R : parapply package
-                    \item Python : multiprocessing module
-                \end{itemize}
-        \end{enumerate}
-    
-    \pause
-    \bigskip
-    \item This is your interface with the computer cluster
-\end{itemize}
-\end{frame}
- 
-
-
-
-\begin{frame}
-\frametitle{What is Slurm?}
-A Workload Manager
-\begin{itemize}
-    \item Permits efficient (and fair) utilization of Cluster resources.
-    \bigskip
-    \item This is your interface with the computer cluster
-\end{itemize}
-\end{frame}
- 
-
-\begin{frame}
-\frametitle{Slurm Concepts}
-\begin{itemize}
-    \item Job
-    \pause 
-    \begin{enumerate}
-        \item Composed of one or more Steps
-    \end{enumerate}
-    \bigskip
-    \pause
-    \item Step
-    \begin{enumerate}
-        \item Composed of one or more Tasks
-    \end{enumerate}
-    \bigskip
-    \pause
-    \item Task
-    \begin{enumerate}
-        \item Composed of one or more CPUs
-    \end{enumerate}
-    \bigskip
-\end{itemize}
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Baker}
-A typical job on Baker : 
-\begin{itemize}
-    \item 1 Node 
-    \pause 
-    \bigskip
-    \pause
-    \item 1 Task
-    \bigskip
-    \pause
-    \item Multiple CPUs
-\end{itemize}
-Complicated jobs may benefit from utilizing steps and tasks, most jobs will not.
-\end{frame}
-
-
-\begin{frame}
-\frametitle{Baker}
+\frametitle{Cluster Architecture}
 Type of hardware available
 \begin{itemize}
     \item High Memory (himem)
@@ -204,10 +125,142 @@ Type of hardware available
     \begin{enumerate}
         \item 128 GB and 192GB RAM 
         \item 20 cores 
-        \item Haswell and ? CPUs
+        \item Haswell and Skylake CPUs
         \item NVidia K40, P100 and V100 available
     \end{enumerate}
 \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Cluster Architecture}
+Storage 
+\begin{itemize}
+    \item 429 TB of storage available
+    \pause
+    \item No limits on user storage - be responsible.
+          It takes everyone's cooperation to have this nice feature.
+    \pause
+    \item Not intended for archival or long term storage.
+        \begin{enumerate}
+              \item Be sure to back up your important data and code elsewhere
+              \item If data center goes up in smoke, your research, time and grant money may as well.
+        \end{enumerate}
+    \pause
+    \item PHI permitted
+\end{itemize}
+\pause
+Networking:
+\begin{itemize}
+    \item 56 Gb/s Infiniband fabric available
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{HPC Concepts}
+Parallelization:
+\begin{itemize}
+    \item Shared memory
+        \begin{enumerate}
+            \item All memory used is within the same physical computer
+            \pause
+            \item Often used for 'embarrassingly parallizeable' problems
+            \pause 
+            \item Protocals 
+                \begin{itemize}
+                    \item C/Fortran : OpenMP
+                    \item R : parapply package
+                    \item Python : multiprocessing module
+                \end{itemize}
+        \end{enumerate}
+    
+    \pause
+    \bigskip
+    \item Distributed memory
+        \begin{enumerate}
+            \item Memory is distributed amongst multiple computers
+            \pause
+            \item Protocals 
+                \begin{itemize}
+                    \item C/Fortran : MPI
+                    \item Any language : Server-Client model over ports
+                \end{itemize}
+        \end{enumerate}
+\end{itemize}
+\end{frame}
+ 
+
+
+\begin{frame}
+\frametitle{What is Slurm?}
+Need method for managing cluster resources.
+\bigskip
+\begin{itemize}
+    \pause
+    \item Enter SLURM - A Workload Manager
+    \bigskip
+    \pause
+    \begin{enumerate}
+        \item Permits efficient (and fair) utilization of Cluster resources.
+        \pause
+        \bigskip
+        \item This is your interface with the computer cluster
+    \end{enumerate}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Slurm Concepts}
+\begin{itemize}
+    \item Job
+    \pause 
+    \begin{enumerate}
+        \item Primary way of requesting resources
+        \pause
+        \item Composed of one or more Steps
+    \end{enumerate}
+    \bigskip
+    \pause
+    \item Step
+    \begin{enumerate}
+        \item A way of dividing the resources allocated
+        \pause
+        \item Can be run serially or in parallel within a job
+        \pause
+        \item Composed of one or more Tasks
+    \end{enumerate}
+    \bigskip
+    \pause
+    \item Task
+    \begin{enumerate}
+        \item Composed of one or more CPUs
+    \end{enumerate}
+    \bigskip
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Baker}
+A typical job on Baker : 
+\bigskip
+\begin{itemize}
+    \item 1 Node 
+    \pause 
+    \bigskip
+    \pause
+    \item 1 Task
+    \bigskip
+    \pause
+    \item Multiple CPUs
+    \bigskip
+    \pause
+\end{itemize}
+Complicated jobs may benefit from utilizing multiple steps and tasks, most jobs will not.
 \end{frame}
 
 
@@ -227,9 +280,11 @@ Type of hardware available
 \end{frame}
 
 
+
 \begin{frame}
-\frametitle{\code{sbatch}}
+\frametitle{sbatch}
 Examples of Usage:
+\bigskip
 \begin{itemize}
     \item \code{sbatch myscript.sh}
     \bigskip
@@ -241,272 +296,147 @@ Examples of Usage:
         \item NOTE : specifying 20 cores, will not magically make your script use 20 cores.
                      You will need to specify that within your shell script \code{myscript.sh}
     \end{enumerate}
+    \item \code{sbatch --gres=gpu:p100 myscript.sh}
+    \bigskip
 \end{itemize}
-
-
 \end{frame}
+
+
 
 \begin{frame}
-\frametitle{\code{sbatch} - Bash script}
+\frametitle{sbatch}
 Two ways to pass arguments to sbatch
+\smallskip
 \begin{itemize}
     \item Command line
-    \bigskip
+        \smallskip
+        \begin{enumerate}
+            \item E.g. \code{sbatch OPTIONS myscript.sh}
+            \pause
+            \smallskip
+            \item Popular \code{OPTIONS}
+            \begin{itemize}
+                \item \code{--cpus-per-task=} 
+                \smallskip
+                \item \code{--partition=} \code{himem}
+                \pause
+                \smallskip
+                \item \code{--gres=} \code{gpu:p100}, \code{gpu:k40}, \code{gpu:v100}
+            \end{itemize}
+            \pause
+            \smallskip
+            \item Preempts options set in bash script
+        \end{enumerate}
+        \smallskip
+
     \pause
-    \item 
-    \bigskip
+    \item In Bash Script, \code{myscript.sh}
+        \smallskip
+        \begin{enumerate}
+            \item Popular \code{OPTIONS}
+            \begin{itemize}
+                \item \code{\#SBATCH --cpus-per-task=} 
+                \pause
+                \smallskip
+                \item \code{\#SBATCH --partition=} \code{himem}
+                \pause
+                \smallskip
+                \item \code{\#SBATCH --gres=} \code{gpu:p100}, \code{gpu:k40}, \code{gpu:v100}
+            \end{itemize}
+        \end{enumerate}
 \end{itemize}
 \end{frame}
-% 
-%
-%\begin{frame}
-%\frametitle{Types of Users}
-%\begin{itemize}
-%    \item Regular users (you)
-%    \bigskip
-%
-%    \item Priveleged users (Yuan and myself)
-%    \bigskip
-%
-%    \begin{itemize}
-%        \item Can modify \code{/usr}, \code{/opt}, etc.
-%        \bigskip
-%
-%        \item \code{sudo}
-%    \end{itemize}
-%\end{itemize}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{The ``Shell"}
-%%\begin{picture}(320,250)  %must be related to where it is centered
-%%%\put(-30, 200){\includegraphics[height=0.8in]{images/Panoramic_Austin.jpg}}
-%%\put(100, 100){\includegraphics[height=1.8in]{images/shell.eps}}
-%%\end{picture}
-%%\begin{tabular}{cl}  
-%%  \begin{tabular}{c}
-%%    \includegraphics[height=7cm, width=4.5cm]{images/shell.eps}
-%%    \end{tabular}
-%%    & \begin{tabular}{l}
-%%      \parbox{0.5\linewidth}{%  change the parbox width as appropiate
-%    \begin{itemize}
-%        \item Used at the command line, i.e. the `terminal'
-%        \bigskip
-%        \item The user interface with the operating system
-%        \bigskip
-%        \item Bash is the default shell on Baker.
-%    \end{itemize}
-%%    }
-%%    \end{tabular}  \\
-%%\end{tabular}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Text Editors}
-%\begin{itemize}
-%    \item \code{vim}   : Command line based
-%    \bigskip
-%    \item \code{emacs} : Command line based
-%    \bigskip
-%    \item \code{gedit} : Graphical  based
-%\end{itemize}
-%\end{frame}
-%
-%%\begin{frame}
-%%\begin{picture}(320,250)  %must be related to where it is centered
-%%\put(20, 10){\includegraphics[height=3.5in, width=3.5in]{images/vim.eps}}
-%%\end{picture}
-%%\frametitle{Vim}
-%%\end{frame}
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{vim} - text editor
-%\bigskip
-%\begin{itemize}
-%    \item \code{vim $\sim$/Scatch/tmp.txt}
-%    \bigskip
-%    \item Command and Edit modes.
-%    \bigskip
-%    \item \code{esc} to enter command mode
-%    \bigskip
-%    \item \code{i} to enter edit mode
-%    \bigskip
-%    \item To save, in command mode : \code{esc} \code{:w}
-%    \bigskip
-%    \item To quit, in command mode : \code{esc} \code{:q}
-%\end{itemize}
-%\end{frame}
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{ls} - List directories and files. E.g.
-%\bigskip
-%\begin{itemize}
-%    \item \code{ls /opt/python }
-%    \bigskip
-%
-%    \item \code{ls -l /opt/python} 
-%\end{itemize}
-%\end{frame}
-%
-%
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{mkdir} - Make directories. E.g.
-%\bigskip
-%\begin{itemize}
-%    \item \code{mkdir $\sim$/Scratch/newdir}
-%\end{itemize}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{man} - prints user manual for command. E.g.
-%\bigskip
-%\begin{itemize}
-%    \item \code{man ls}
-%    \bigskip
-%    \item Use \code{d} and \code{b} to navigate forward and back.
-%    \bigskip
-%    \item Use \code{q} to quit
-%    \bigskip
-%    \item Use \code{/somestring} to search for \code{somestring} within the man page.
-%\end{itemize}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{cd}- Change directory. E.g.
-%\bigskip
-%\begin{itemize}
-%    \item \code{cd $\sim$/Scratch}
-%    \bigskip
-%    \item \code{cd}
-%    \bigskip
-%    \item \code{cd ..}
-%    \bigskip
-%    \item \code{cd $\sim$} 
-%\end{itemize}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{pwd}- print working directory. E.g.
-%\bigskip
-%\begin{itemize}
-%    \item \code{pwd}
-%\end{itemize}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{touch}- Create empty file. E.g.
-%\bigskip
-%\begin{itemize}
-%    \item \code{touch $\sim$/Scratch/file.txt}
-%\end{itemize}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{mv}- move file or rename file. E.g.
-%\bigskip
-%\begin{itemize}
-%    \item \code{mv $\sim$/Scratch/file.txt $\sim$/Scratch/file2.txt}
-%\end{itemize}
-%\end{frame}
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{cp}- copy files or directories
-%\bigskip
-%\begin{itemize}
-%    \item \code{cp $\sim$/Scratch/file.txt $\sim$/Scratch/file2.txt}
-%    \bigskip
-%    \item \code{cp -r $\sim$/Scratch/newdir $\sim$/Scratch/newdir2}
-%\end{itemize}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{rm}- delete files or directories. Be Careful. E.g.
-%\bigskip
-%\begin{itemize}
-%    \item \code{rm $\sim$/Scratch/file.txt}
-%    \bigskip
-%    \item \code{rm -r $\sim$/Scratch/newdir}
-%\end{itemize}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{cat}- concatenate files. E.g.
-%\bigskip
-%\begin{itemize}
-%    \item \code{cat /opt/modulefiles/gcc-4.9.2}
-%\end{itemize}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Basic Commands}
-%\code{echo}- echo back string. E.g.
-%\bigskip
-%\begin{itemize}
-%    \item \code{echo "Hello World"}
-%\end{itemize}
-%\end{frame}
-%
-%
-%\begin{frame}
-%\frametitle{Permissions}
-%\code{chmod}- Change permissions.
-%E.g.
-%\begin{itemize}
-%    \item \code{ls -l $\sim$/Scratch/file.txt}, yields : 
-%    \hspace{5mm} \code{-rw-r--r--  1 user group 0 Apr  5 09:01 file.txt}
-%    \smallskip
-%    \item \code{chmod 755 somescript.sh}
-%    \bigskip
-%    \item \code{ls -l $\sim$/Scratch/file.txt}, yields : 
-%    \hspace{5mm} \code{-rwxr-xr-x  1 user group 0 Apr  5 09:01 file.txt}
-%\end{itemize}
-%\bigskip
-%
-%Explanation:
-%\begin{itemize}
-%    \item First number is you.
-%    \item Second number is for your group (i.e. lab).
-%    \item Third number is for everyone else.
-%    \item \code{r} = 4, \code{w} = 2, \code{x} = 1
-%    \item \code{7} = \code{4} + \code{2} + \code{1} = read (\code{r}) + write (\code{w}) +  execute(\code{x})
-%    \item \code{5} = \code{4} + \code{1} = read (\code{r}), execute(\code{x})
-%\end{itemize}
-%\end{frame}
-%
-%\begin{frame}
-%\frametitle{Homework}
-%Create a bash script that says ``Hello World". Make it executable. 
-%
-%\bigskip
-%
-%\emph{HINT}, you'll need to add $\code{\#^^21/bin/bash}$ at the top of your script
-%\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{sbatch}
+Example \code{myscript.sh}: 
+\begin{lstlisting}
+    #!/bin/bash
+    #SBATCH --cpus-per-task=10
+    set -e
+    echo "Hello World"
+    sleep 30
+\end{lstlisting}
+\bigskip
+\bigskip
+Submit with \code{sbatch myscript.sh}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{sbatch}
+Output from batch script (\code{slurm-1795906.out}), will have some of the below information (some columns abbreviated for clarity)
+\begingroup
+\tiny
+\begin{lstlisting}
+Hello World
+Job Statistics for 179:
+       JobID   User Start End   Elapsed  MaxRSS   TotalCPU State Exit  NodeList ReqTRES
+------------ ------ ----- --- --------- ------- ---------- ----- ---- --------- ----------------
+         179 aps003 ..... ...  00:00:00          00:00.009 COMPL  0:0    node01  cpu=1,mem=6144M
+   179.batch        ..... ...  00:00:00       0  00:00.008 COMPL  0:0    node01
+  179.extern        ..... ...  00:00:00       0   00:00:00 COMPL  0:0    node01
+CPU Efficiency: 0.00% of 00:00:00 core-walltime
+\end{lstlisting}
+\endgroup
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{sbatch}
+Himem partition example \code{myscript\_himem.sh}: 
+\begin{lstlisting}
+    #!/bin/bash
+    #SBATCH --cpus-per-task=2
+    #SBATCH --partition=himem
+    set -e
+    echo "Hello World"
+    sleep 30
+\end{lstlisting}
+\bigskip
+\bigskip
+Submit with \code{sbatch myscript\_himem.sh}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{sbatch}
+GPU example \code{myscript\_gpu.sh}: 
+\begin{lstlisting}
+    #!/bin/bash
+    #SBATCH --cpus-per-task=2
+    #SBATCH --gres=gpu:p100
+    set -e
+    echo "Hello World"
+    sleep 30
+\end{lstlisting}
+\bigskip
+\bigskip
+Submit with \code{sbatch myscript\_gpu.sh}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{sbatch}
+Broken Example \code{myscript\_broken.sh}: 
+\begin{lstlisting}
+    #!/bin/bash
+    #SBATCH --cpus-per-task=2
+    #SBATCH --partition=himem
+    #SBATCH --mail-user=First.Last@gmail.com
+    #SBATCH --mail-type=FAIL,REQUEUE,TIME_LIMIT_90
+    set -e
+    echo "I'm looking in the forbidden location"
+    ls /root/
+    echo "I never make it here"
+\end{lstlisting}
+\end{frame}
+
+
+
+
 
 \end{document}
-
-
-
-
-
