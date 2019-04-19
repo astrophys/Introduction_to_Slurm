@@ -52,7 +52,6 @@
 
 
 
-
 %Information to be included in the title page:
 \title{Introduction to Slurm}
 \author{Ali Snedden}
@@ -352,7 +351,7 @@ Two ways to pass arguments to sbatch
 \begin{frame}[fragile]
 \frametitle{sbatch}
 Example \code{myscript.sh}: 
-\begin{lstlisting}
+\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash]
     #!/bin/bash
     #SBATCH --cpus-per-task=10
     set -e
@@ -370,7 +369,7 @@ Submit with \code{sbatch myscript.sh}
 Output from batch script (\code{slurm-1795906.out}), will have some of the below information (some columns abbreviated for clarity)
 \begingroup
 \tiny
-\begin{lstlisting}
+\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash]
 Hello World
 Job Statistics for 179:
        JobID   User Start End   Elapsed  MaxRSS   TotalCPU State Exit  NodeList ReqTRES
@@ -387,7 +386,7 @@ CPU Efficiency: 0.00% of 00:00:00 core-walltime
 \begin{frame}[fragile]
 \frametitle{sbatch}
 Himem partition example \code{myscript\_himem.sh}: 
-\begin{lstlisting}
+\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash]
     #!/bin/bash
     #SBATCH --cpus-per-task=2
     #SBATCH --partition=himem
@@ -404,7 +403,7 @@ Submit with \code{sbatch myscript\_himem.sh}
 \begin{frame}[fragile]
 \frametitle{sbatch}
 GPU example \code{myscript\_gpu.sh}: 
-\begin{lstlisting}
+\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash]
     #!/bin/bash
     #SBATCH --cpus-per-task=2
     #SBATCH --gres=gpu:p100
@@ -422,20 +421,38 @@ Submit with \code{sbatch myscript\_gpu.sh}
 \begin{frame}[fragile]
 \frametitle{sbatch}
 Broken Example \code{myscript\_broken.sh}: 
-\begin{lstlisting}
+\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash]
     #!/bin/bash
     #SBATCH --cpus-per-task=2
     #SBATCH --partition=himem
     #SBATCH --mail-user=First.Last@gmail.com
-    #SBATCH --mail-type=FAIL,REQUEUE,TIME_LIMIT_90
+    #SBATCH --mail-type=FAIL,TIME_LIMIT_90
     set -e
     echo "I'm looking in the forbidden location"
     ls /root/
     echo "I never make it here"
 \end{lstlisting}
+\bigskip
+\bigskip
+Submit with \code{sbatch myscript\_broken.sh}
 \end{frame}
 
 
+
+\begin{frame}[fragile]
+\frametitle{salloc}
+\code{salloc} - Interactive allocations Using 
+
+\begin{itemize}
+    \item Would use when needing to 
+    \item \code{salloc --cpus-per-task=2}
+    \item \code{srun  --jobid XXXX --pty bash}
+\end{itemize}
+
+
+
+
+\end{frame}
 
 
 
