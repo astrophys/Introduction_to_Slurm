@@ -439,19 +439,32 @@ Submit with \code{sbatch myscript\_broken.sh}
 
 
 
-\begin{frame}[fragile]
+\begin{frame}
 \frametitle{salloc}
 \code{salloc} - Interactive allocations Using 
-
+\bigskip
 \begin{itemize}
-    \item Would use when needing to 
-    \item \code{salloc --cpus-per-task=2}
-    \item \code{srun  --jobid XXXX --pty bash}
+    \item Use when needing to interactively run long processes. E.g.
+        \begin{enumerate}
+            \item compiling
+            \bigskip
+            \pause 
+            \item developing and testing workflows
+            \bigskip
+            \pause 
+            \item downloading data
+            \bigskip
+            \pause 
+        \end{enumerate}
+    \pause
+    \item Example of Running:
+    \bigskip
+    \begin{enumerate}
+        \item \code{salloc --cpus-per-task=2}
+        \bigskip
+        \item \code{srun  --jobid XXXX --pty bash}
+    \end{enumerate}
 \end{itemize}
-
-
-
-
 \end{frame}
 
 
