@@ -441,7 +441,7 @@ Submit with \code{sbatch myscript\_broken.sh}
 
 \begin{frame}
 \frametitle{salloc}
-\code{salloc} - Interactive allocations Using 
+\code{salloc} - Interactive allocation 
 \bigskip
 \begin{itemize}
     \item Use when needing to interactively run long processes. E.g.
@@ -457,16 +457,47 @@ Submit with \code{sbatch myscript\_broken.sh}
             \pause 
         \end{enumerate}
     \pause
+    \pause
+    
     \item Example of Running:
     \bigskip
     \begin{enumerate}
         \item \code{salloc --cpus-per-task=2}
         \bigskip
         \item \code{srun  --jobid XXXX --pty bash}
+        \pause
+        \bigskip
+        \item \code{salloc} takes all same command line options as \code{sbatch}
     \end{enumerate}
 \end{itemize}
 \end{frame}
 
+
+\begin{frame}
+\frametitle{srun-x11}
+\code{srun-x11} - Interactive allocations with X11 forwarding
+\bigskip
+\begin{itemize}
+    \item Use when needing graphical processes
+        \bigskip
+        \begin{enumerate}
+            \item GUI editors, e.g. RStudio
+            \bigskip
+            \pause 
+            \item Plotting, e.g. gnuplot, matplotlib
+            \bigskip
+        \end{enumerate}
+    \pause
+    \item Example of Running:
+    \bigskip
+    \begin{enumerate}
+        \item \code{srun-x11 --cpus-per-task=2}
+        \bigskip
+        \pause
+        \item Limited to 10h, can change by passing \code{time} option, e.g. \code{srun-x11 --time=2-00:00:00}
+    \end{enumerate}
+\end{itemize}
+\end{frame}
 
 
 \end{document}
