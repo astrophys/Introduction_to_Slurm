@@ -1,5 +1,5 @@
-%
-%
+% Compile by directly running 
+%   pdflatex Slurm_Intro.tex 
 %
 %
 %
@@ -589,16 +589,54 @@ JobId=1794106 JobName=test
 
 
 \begin{frame}[fragile]
-\frametitle{Homework 1}
-Consider the following Scripts
-\begingroup
-\tiny
-\begin{lstlisting}[backgroundcolor = \color{codegray},showstringspaces=false, language=Bash]
+\frametitle{Homework 1 - Illustrating jobs, steps and tasks}
+Consider the following scripts
 
+\medskip
+\code{step.sh}
+\begingroup
+\small
+\begin{lstlisting}[backgroundcolor = \color{codegray},showstringspaces=false, language=Bash]
+#!/bin/bash
+#SBATCH --cpus-per-task=10
+#SBATCH --tasks-per-node=2
+srun --ntasks=1 bash other.sh first_step &
+srun --ntasks=1 bash other.sh second_step &
+wait
+\end{lstlisting}
+\endgroup
+
+
+\medskip
+\code{other.sh}
+\begingroup
+\small
+\begin{lstlisting}[backgroundcolor = \color{codegray},showstringspaces=false, language=Bash]
+#!/bin/bash
+date
+echo "Hello from $1"
+sleep 30
+echo "World from $1"
+date
 \end{lstlisting}
 \endgroup
 \end{frame}
 
 
+
+\begin{frame}
+\frametitle{Homework 1 - Illustrating jobs, steps and tasks}
+\begin{itemize}
+    \item Submit job \code{step.sh}
+    \bigskip
+    \item Remove the \code{\&} at the end of the lines. What happens?
+    \bigskip
+    \item Remove the \code{\&} at the end of the lines along with \code{wait}. What happens?
+    \bigskip
+    \item Remove the \code{--ntasks=1}, along with \code{\&} and \code{wait}. What happens?
+    \bigskip
+    \item Try different combinations.
+\end{itemize}
+\end{frame}
 
 \end{document}
