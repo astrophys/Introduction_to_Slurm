@@ -351,7 +351,7 @@ Two ways to pass arguments to sbatch
 \begin{frame}[fragile]
 \frametitle{sbatch}
 Example \code{myscript.sh}: 
-\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash]
+\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash, showstringspaces=false]
     #!/bin/bash
     #SBATCH --cpus-per-task=10
     set -e
@@ -369,7 +369,7 @@ Submit with \code{sbatch myscript.sh}
 Output from batch script (\code{slurm-1795906.out}), will have some of the below information (some columns abbreviated for clarity)
 \begingroup
 \tiny
-\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash]
+\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash, showstringspaces=false]
 Hello World
 Job Statistics for 179:
        JobID   User Start End   Elapsed  MaxRSS   TotalCPU State Exit  NodeList ReqTRES
@@ -386,7 +386,7 @@ CPU Efficiency: 0.00% of 00:00:00 core-walltime
 \begin{frame}[fragile]
 \frametitle{sbatch}
 Himem partition example \code{myscript\_himem.sh}: 
-\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash]
+\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash, showstringspaces=false]
     #!/bin/bash
     #SBATCH --cpus-per-task=2
     #SBATCH --partition=himem
@@ -403,7 +403,7 @@ Submit with \code{sbatch myscript\_himem.sh}
 \begin{frame}[fragile]
 \frametitle{sbatch}
 GPU example \code{myscript\_gpu.sh}: 
-\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash]
+\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash, showstringspaces=false]
     #!/bin/bash
     #SBATCH --cpus-per-task=2
     #SBATCH --gres=gpu:p100
@@ -421,7 +421,7 @@ Submit with \code{sbatch myscript\_gpu.sh}
 \begin{frame}[fragile]
 \frametitle{sbatch}
 Broken Example \code{myscript\_broken.sh}: 
-\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash]
+\begin{lstlisting}[backgroundcolor = \color{codegray}, language = Bash,showstringspaces=false]
     #!/bin/bash
     #SBATCH --cpus-per-task=2
     #SBATCH --partition=himem
@@ -498,6 +498,107 @@ Submit with \code{sbatch myscript\_broken.sh}
     \end{enumerate}
 \end{itemize}
 \end{frame}
+
+
+\begin{frame}
+\frametitle{Monitoring Jobs Progress}
+There are several ways to monitor jobs progress.  
+\begin{itemize}
+    \item \code{squeue}
+    \pause
+    \bigskip
+    \item \code{scontrol}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Monitoring Jobs Progress}
+\code{squeue}, e.g. 
+\begin{itemize}
+    \item \begingroup
+          \tiny
+            \code{squeue -a --sort=i -o "\%.8i \%.9P \%.13j \%.8u \%.2t \%.10M \%.6D \%.9C \%R"}
+          \endgroup
+    \item Make this an alias in your \code{.bashrc} or \code{.profile}
+    \pause
+    \bigskip
+\end{itemize}
+\begingroup
+\tiny
+\begin{lstlisting}[backgroundcolor = \color{codegray},showstringspaces=false]
+   JOBID PARTITION          NAME     USER ST       TIME  NODES      CPUS NODELIST(REASON)
+ 1791312   general gromacs_test_   mxk055  R 9-21:30:30      1        20 node02
+ 1791313   general gromacs_test_   mxk055  R 9-21:30:09      1        20 node03
+ 1791316   general          his1   mxk055  R 9-21:28:56      1        20 node06
+ 1791317   general          his1   mxk055  R 9-21:28:53      1        20 node07
+ 1794106   general          test  gtnuser  R 3-20:17:31      1        20 gpu03
+ 1794236   general          bash   cxt050  R 2-23:33:53      1         1 node01
+ 1795247     himem      HEJTV6MI   hxs032  R 1-18:46:52      1        48 himem01
+ 1795850     himem          bash   ert002  R   21:02:59      1         1 himem02
+ 1795863   general          bash   rxr014  R   20:44:12      1        20 node04
+1795869_     himem       NRIAgeQ   mam028  R   20:15:05      1         1 himem02
+1795872_     himem      NRIAgeQb   mam028  R   20:05:45      1         1 himem02
+ 1795894   general  _interactive   zxx002  R   19:25:37      1        19 node09
+ 1795907     himem          bash rsixs001  R      24:34      1         1 himem02
+ 1795909   general          bash   jgp003  R      11:17      1         1 node01
+\end{lstlisting}
+\endgroup
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+\frametitle{Monitoring Jobs Progress}
+\code{scontrol}, e.g. \code{ scontrol show jobid 1794106}
+\begingroup
+\tiny
+\begin{lstlisting}[backgroundcolor = \color{codegray},showstringspaces=false]
+JobId=1794106 JobName=test
+   UserId=gtnuser(600) GroupId=gdpairlab(1191939003) MCS_label=N/A
+   Priority=28575 Nice=0 Account=gdpairlab QOS=normal
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=3-20:25:41 TimeLimit=7-00:00:00 TimeMin=N/A
+   SubmitTime=2019-04-15T12:30:01 EligibleTime=2019-04-15T12:30:01
+   StartTime=2019-04-15T12:30:02 EndTime=2019-04-22T12:30:02 Deadline=N/A
+   PreemptTime=None SuspendTime=None SecsPreSuspend=0
+   LastSchedEval=2019-04-15T12:30:02
+   Partition=general AllocNode:Sid=qmaster01:20116
+   ReqNodeList=gpu03 ExcNodeList=(null)
+   NodeList=gpu03
+   BatchHost=gpu03
+   NumNodes=1 NumCPUs=20 NumTasks=1 CPUs/Task=20 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=20,mem=120G,node=1,billing=20,gres/gpu=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=20 MinMemoryCPU=6G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   Gres=gpu:1 Reservation=(null)
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/gpfs0/home/gdpairlab/gtnuser/ram_test/start_gtn.sh
+   WorkDir=/gpfs0/home/gdpairlab/gtnuser/ram_test
+   StdErr=/gpfs0/home/gdpairlab/gtnuser/ram_test/test_1794106.out
+   StdIn=/dev/null
+   StdOut=/gpfs0/home/gdpairlab/gtnuser/ram_test/test_1794106.out
+   Power=
+\end{lstlisting}
+\endgroup
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Homework 1}
+Consider the following Scripts
+\begingroup
+\tiny
+\begin{lstlisting}[backgroundcolor = \color{codegray},showstringspaces=false, language=Bash]
+
+\end{lstlisting}
+\endgroup
+\end{frame}
+
 
 
 \end{document}
