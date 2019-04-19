@@ -109,7 +109,6 @@ Type of hardware available
         \item 48 cores 
         \item Ivy Bridge CPUs - slower memory access
     \end{enumerate}
-    \pause 
     \bigskip
     \pause
     \item General Purpose (default)
@@ -143,6 +142,7 @@ Storage
     \item Not intended for archival or long term storage.
         \begin{enumerate}
               \item Be sure to back up your important data and code elsewhere
+              \pause
               \item If data center goes up in smoke, your research, time and grant money may as well.
         \end{enumerate}
     \pause
@@ -249,7 +249,6 @@ A typical job on Baker :
 \bigskip
 \begin{itemize}
     \item 1 Node 
-    \pause 
     \bigskip
     \pause
     \item 1 Task
@@ -316,6 +315,7 @@ Two ways to pass arguments to sbatch
             \item Popular \code{OPTIONS}
             \begin{itemize}
                 \item \code{--cpus-per-task=} 
+                \pause
                 \smallskip
                 \item \code{--partition=} \code{himem}
                 \pause
@@ -454,15 +454,14 @@ Submit with \code{sbatch myscript\_broken.sh}
             \pause 
             \item downloading data
             \bigskip
-            \pause 
         \end{enumerate}
-    \pause
     \pause
     
     \item Example of Running:
     \bigskip
     \begin{enumerate}
         \item \code{salloc --cpus-per-task=2}
+        \pause
         \bigskip
         \item \code{srun  --jobid XXXX --pty bash}
         \pause
@@ -503,6 +502,7 @@ Submit with \code{sbatch myscript\_broken.sh}
 \begin{frame}
 \frametitle{Monitoring Jobs Progress}
 There are several ways to monitor jobs progress.  
+\bigskip
 \begin{itemize}
     \item \code{squeue}
     \pause
