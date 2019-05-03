@@ -16,3 +16,6 @@ This presentation covers :
     * Illustrates simple examples of requesting various resources.
     * Interactive allocations
     * Monitoring job progress.
+
+## Compile
+`pdflatex Slurm_Intro.tex`
